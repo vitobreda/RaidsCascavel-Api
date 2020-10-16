@@ -3,6 +3,13 @@ import { BadRequestError } from "restify-errors";
 
 const mpContentType = "application/marge-patch+json";
 
+/* 
+    essa função tem como objetivo recebeer requisições do tipo path
+    quando é enviado no header o parametro contentType igual a 
+    application/marge-patch+json de forma a seguir as especificações
+    do padrão restful
+*/
+
 export const mergePatchBodyParser = (
   req: restify.Request,
   resp: restify.Response,

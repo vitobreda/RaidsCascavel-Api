@@ -10,6 +10,7 @@ class Router extends events_1.EventEmitter {
     envelopeAll(documents, options) {
         return documents;
     }
+    // método para retornar ao usuario um objeto
     render(response, next) {
         // document é o retorno da promise
         return (document) => {
@@ -23,6 +24,7 @@ class Router extends events_1.EventEmitter {
             return next();
         };
     }
+    // método para retornar ao usuario um array de objetos
     renderAll(response, next, options = {}) {
         return (documents) => {
             if (documents) {

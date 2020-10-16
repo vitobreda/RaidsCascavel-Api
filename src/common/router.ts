@@ -13,6 +13,7 @@ export abstract class Router extends EventEmitter {
     return documents;
   }
 
+  // método para retornar ao usuario um objeto
   render(response: restify.Response, next: restify.Next) {
     // document é o retorno da promise
     return (document: any) => {
@@ -26,6 +27,7 @@ export abstract class Router extends EventEmitter {
     };
   }
 
+  // método para retornar ao usuario um array de objetos
   renderAll(response: restify.Response, next: restify.Next, options: any = {}) {
     return (documents: any[]) => {
       if (documents) {
