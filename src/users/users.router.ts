@@ -39,6 +39,7 @@ class UsersRouter extends ModelRouter<User> {
       this.validateId,
       this.delete,
     ]);
+
     application.post({ path: `${this.basePath}/authenticate` }, authenticate);
   }
 }

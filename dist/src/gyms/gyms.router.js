@@ -30,6 +30,14 @@ class GymsRouter extends model_router_1.ModelRouter {
             this.validateId,
             this.delete,
         ]);
+        application.post({ path: `${this.basePath}/several` }, (req, resp, next) => {
+            for (let current in req.body) {
+                let document = new this.model(req.body[current]);
+                document.save().catch(next);
+            }
+            resp.json({ status: "ok" });
+            next();
+        });
     }
 }
 exports.gymsRouter = new GymsRouter();

@@ -1,7 +1,6 @@
 import * as restify from "restify";
 import { Gym } from "./gyms.model";
 import { ModelRouter } from "../common/model-router";
-import { authenticate } from "../security/auth.handler";
 import { authorize } from "../security/authz.handler";
 
 class GymsRouter extends ModelRouter<Gym> {
@@ -36,6 +35,20 @@ class GymsRouter extends ModelRouter<Gym> {
       this.validateId,
       this.delete,
     ]);
+
+    application.post(
+      { path: `${this.basePath}/several` },
+      (req: restify.Request, resp: restify.Response, next: restify.Next) => {
+        for (let current in req.body) {
+          let document = new this.model(req.body[current]);
+
+          document.save().catch(next);
+        }
+
+        resp.json({ status: "ok" });
+        next();
+      }
+    );
   }
 }
 
