@@ -18,19 +18,26 @@ class UsersRouter extends model_router_1.ModelRouter {
             this.findAll,
         ]);
         application.get({ path: `${this.basePath}/:id` }, [
+            authz_handler_1.authorize("user", "admin"),
             this.validateId,
             this.findById,
         ]);
-        application.post({ path: `${this.basePath}` }, this.save);
+        application.post({ path: `${this.basePath}` }, [
+            authz_handler_1.authorize("user", "admin"),
+            this.save,
+        ]);
         application.put({ path: `${this.basePath}/:id` }, [
+            authz_handler_1.authorize("user", "admin"),
             this.validateId,
             this.replace,
         ]);
         application.patch({ path: `${this.basePath}/:id` }, [
+            authz_handler_1.authorize("user", "admin"),
             this.validateId,
             this.update,
         ]);
         application.del({ path: `${this.basePath}/:id` }, [
+            authz_handler_1.authorize("user", "admin"),
             this.validateId,
             this.delete,
         ]);

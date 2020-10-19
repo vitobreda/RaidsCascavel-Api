@@ -37,7 +37,7 @@ function applyBearer(req, next) {
                 .then((user) => {
                 if (user) {
                     //associar o usuário no request
-                    req.authenticated = user; //
+                    req.authenticated = user;
                 }
                 next();
             })
