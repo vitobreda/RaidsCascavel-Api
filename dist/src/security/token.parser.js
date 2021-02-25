@@ -4,12 +4,16 @@ exports.tokenParser = void 0;
 const jwt = require("jsonwebtoken");
 const users_model_1 = require("../users/users.model");
 const environment_1 = require("../common/environment");
+<<<<<<< HEAD
 /*
   Esse conjunto de função tem como objetivo remover o token da requisição
   validar e buscar o usuario vinculado ao token em um novo parametro da
   requisição.
 */
 exports.tokenParser = (req, resp, next) => {
+=======
+const tokenParser = (req, resp, next) => {
+>>>>>>> origin/back_to_begin
     const token = extractToken(req);
     if (token) {
         jwt.verify(token, environment_1.environment.security.apiSecret, applyBearer(req, next));
@@ -18,6 +22,7 @@ exports.tokenParser = (req, resp, next) => {
         next();
     }
 };
+exports.tokenParser = tokenParser;
 function extractToken(req) {
     //Authorization: Bearer TOKEN
     let token = undefined;

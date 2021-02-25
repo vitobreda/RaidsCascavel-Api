@@ -26,11 +26,23 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: false,
         enum: ["Male", "Female"],
+<<<<<<< HEAD
+=======
+    },
+    cpf: {
+        type: String,
+        required: false,
+        validate: {
+            validator: validators_1.validateCPF,
+            message: "{PATH}: Invalid CPF ({VALUE})",
+        },
+>>>>>>> origin/back_to_begin
     },
     profiles: {
         type: [String],
         required: false,
     },
+<<<<<<< HEAD
     level: {
         type: Number,
         min: 1,
@@ -47,6 +59,8 @@ const userSchema = new mongoose.Schema({
         type: String,
         enum: ["Mystic", "Valor", "Instinct"],
     },
+=======
+>>>>>>> origin/back_to_begin
 });
 userSchema.statics.findByEmail = function (email, projection) {
     return this.findOne({ email }, projection); //{email: email}

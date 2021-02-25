@@ -23,7 +23,10 @@ function extractToken(req: restify.Request) {
   const authorization = req.header("authorization");
   if (authorization) {
     const parts: string[] = authorization.split(" ");
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/back_to_begin
     if (parts.length === 2 && parts[0] === "Bearer") {
       token = parts[1];
     }
@@ -38,7 +41,11 @@ function applyBearer(req: restify.Request, next): (error, decoded) => void {
         .then((user) => {
           if (user) {
             //associar o usuário no request
+<<<<<<< HEAD
             (<any>req).authenticated = user;
+=======
+            (<any>req).authenticated = user; //
+>>>>>>> origin/back_to_begin
           }
           next();
         })

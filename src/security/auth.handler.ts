@@ -13,6 +13,11 @@ export const authenticate: restify.RequestHandler = (req, resp, next) => {
     .then((user) => {
       if (user && user.matches(password)) {
         //2nd
+<<<<<<< HEAD
+=======
+        //gerar o token
+        //3rd
+>>>>>>> origin/back_to_begin
         const token = jwt.sign(
           { sub: user.email, iss: "raidscascavel-api" },
           environment.security.apiSecret

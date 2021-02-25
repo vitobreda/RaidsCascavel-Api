@@ -1,4 +1,8 @@
 import * as mongoose from "mongoose";
+<<<<<<< HEAD
+=======
+import { validateCPF } from "../common/validators";
+>>>>>>> origin/back_to_begin
 import * as bcrypt from "bcrypt";
 import { environment } from "../common/environment";
 
@@ -6,6 +10,10 @@ export interface User extends mongoose.Document {
   name: string;
   email: string;
   password: string;
+<<<<<<< HEAD
+=======
+  cpf: string;
+>>>>>>> origin/back_to_begin
   gender: string;
   profiles: string[];
   matches(password: string): boolean;
@@ -42,6 +50,7 @@ const userSchema = new mongoose.Schema({
   profiles: {
     type: [String],
     required: false,
+<<<<<<< HEAD
   },
   level: {
     type: Number,
@@ -58,6 +67,16 @@ const userSchema = new mongoose.Schema({
   team: {
     type: String,
     enum: ["Mystic", "Valor", "Instinct"],
+=======
+    validate: {
+      validator: validateCPF,
+      message: "{PATH}: Invalid CPF ({VALUE})",
+    },
+  },
+  profiles: {
+    type: [String],
+    required: false,
+>>>>>>> origin/back_to_begin
   },
 });
 
@@ -66,11 +85,21 @@ userSchema.statics.findByEmail = function (email: string, projection: string) {
 };
 
 userSchema.methods.matches = function (password: string): boolean {
+<<<<<<< HEAD
   return bcrypt.compareSync(password, this.password);
 };
 
 userSchema.methods.hasAny = function (...profiles: string[]): boolean {
   return profiles.some((profile) => this.profiles.indexOf(profile) !== -1);
+=======
+  return bcrypt.compareSync(password, (<User>this).password);
+};
+
+userSchema.methods.hasAny = function (...profiles: string[]): boolean {
+  return profiles.some(
+    (profile) => (<User>this).profiles.indexOf(profile) !== -1
+  );
+>>>>>>> origin/back_to_begin
 };
 
 const hashPassword = (obj, next) => {

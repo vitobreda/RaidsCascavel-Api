@@ -14,7 +14,11 @@ class UsersRouter extends model_router_1.ModelRouter {
     }
     applyRoutes(application) {
         application.get({ path: `${this.basePath}` }, [
+<<<<<<< HEAD
             authz_handler_1.authorize("user", "admin"),
+=======
+            authz_handler_1.authorize("admin"),
+>>>>>>> origin/back_to_begin
             this.findAll,
         ]);
         application.get({ path: `${this.basePath}/:id` }, [
