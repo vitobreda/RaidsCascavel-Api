@@ -13,7 +13,10 @@ class UsersRouter extends model_router_1.ModelRouter {
         });
     }
     applyRoutes(application) {
-        application.get({ path: `${this.basePath}` }, [authz_handler_1.authorize('admin'), this.findAll]);
+        application.get({ path: `${this.basePath}` }, [
+            authz_handler_1.authorize("admin"),
+            this.findAll,
+        ]);
         application.get({ path: `${this.basePath}/:id` }, [
             this.validateId,
             this.findById,
