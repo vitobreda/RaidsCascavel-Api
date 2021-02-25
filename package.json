@@ -17,6 +17,7 @@
   "dependencies": {
     "bcrypt": "^5.0.0",
     "concurrently": "^6.0.0",
+    "firebase-admin": "^9.5.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.10.3",
     "restify": "^8.5.1",
