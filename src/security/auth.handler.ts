@@ -4,20 +4,14 @@ import { NotAuthorizedError } from "restify-errors";
 import { User } from "../users/users.model";
 import { environment } from "../common/environment";
 
-/*
-  Serviço para se autenticar na api
-*/
 export const authenticate: restify.RequestHandler = (req, resp, next) => {
   const { email, password } = req.body;
   User.findByEmail(email, "+password") //1st
     .then((user) => {
       if (user && user.matches(password)) {
         //2nd
-<<<<<<< HEAD
-=======
         //gerar o token
         //3rd
->>>>>>> origin/back_to_begin
         const token = jwt.sign(
           { sub: user.email, iss: "raidscascavel-api" },
           environment.security.apiSecret

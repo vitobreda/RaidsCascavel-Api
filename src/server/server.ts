@@ -5,7 +5,6 @@ import * as mongoose from "mongoose";
 import { mergePatchBodyParser } from "./server-marge.parser";
 import { handleError } from "./error.handler";
 import { tokenParser } from "../security/token.parser";
-import * as socketio from "socket.io";
 
 export class Server {
   application: restify.Server;
@@ -48,28 +47,9 @@ export class Server {
     });
   }
 
-  initSocketIo() {
-    return new Promise((resolve, reject) => {
-      var io = socketio.listen(this.application.server);
-
-      try {
-        io.sockets.on("connection", function (socket) {
-          socket.emit("news", { hello: "world" });
-          socket.on("my other event", function (data) {
-            console.log(data);
-          });
-
-          resolve(this.application);
-        });
-      } catch (error) {
-        reject(error);
-      }
-    });
-  }
-
   bootstrap(routers: Router[] = []): Promise<Server> {
     return this.initializeDB().then(() =>
-      this.initRoutes(routers).then(() => this.initSocketIo().then(() => this))
+      this.initRoutes(routers).then(() => this)
     );
   }
 
