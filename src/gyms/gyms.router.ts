@@ -41,7 +41,7 @@ class GymsRouter extends ModelRouter<Gym> {
     ]);
 
     application.post(
-      { path: `${this.basePath}/several` },
+      { path: `${this.basePath}/many` },
       (req: restify.Request, resp: restify.Response, next: restify.Next) => {
         req.body.forEach((current) => {
           let document = new this.model(current);
