@@ -10,11 +10,12 @@ class GymsRouter extends ModelRouter<Gym> {
 
   applyRoutes(application: restify.Server) {
     application.get({ path: `${this.basePath}` }, [
-      authorize("user", "admin"),
+      authorize("user"),
       this.findAll,
     ]);
 
     application.get({ path: `${this.basePath}/:id` }, [
+      authorize("user"),
       this.validateId,
       this.findById,
     ]);
@@ -22,16 +23,19 @@ class GymsRouter extends ModelRouter<Gym> {
     application.post({ path: `${this.basePath}` }, this.save);
 
     application.put({ path: `${this.basePath}/:id` }, [
+      authorize("user"),
       this.validateId,
       this.replace,
     ]);
 
     application.patch({ path: `${this.basePath}/:id` }, [
+      authorize("user"),
       this.validateId,
       this.update,
     ]);
 
     application.del({ path: `${this.basePath}/:id` }, [
+      authorize("user"),
       this.validateId,
       this.delete,
     ]);
@@ -39,14 +43,16 @@ class GymsRouter extends ModelRouter<Gym> {
     application.post(
       { path: `${this.basePath}/several` },
       (req: restify.Request, resp: restify.Response, next: restify.Next) => {
-        for (let current in req.body) {
-          let document = new this.model(req.body[current]);
+        req.body.forEach((current) => {
+          let document = new this.model(current);
 
-          document.save().catch(next);
-        }
-
-        resp.json({ status: "ok" });
-        next();
+          document
+            .save()
+            .then(() => {
+              resp.json({ status: "ok" });
+            })
+            .catch(next);
+        });
       }
     );
   }

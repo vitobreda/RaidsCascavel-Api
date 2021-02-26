@@ -42,6 +42,7 @@ const userSchema = new mongoose.Schema({
   firebaseId: {
     type: String,
     required: false,
+    unique: true,
   },
   level: {
     type: Number,

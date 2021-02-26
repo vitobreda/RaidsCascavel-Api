@@ -21,13 +21,6 @@ const gymSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  ex: {
-    type: Boolean,
-    required: true,
-  },
-  type: {
-    type: String,
-  },
 });
 
 export const Gym = mongoose.model<Gym>("Gym", gymSchema);
