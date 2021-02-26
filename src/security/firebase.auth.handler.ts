@@ -17,7 +17,16 @@ export const firebaseAuthenticate: restify.RequestHandler = (
     .verifyIdToken(firebaseToken)
     .then((decodedToken) => {
       User.findByFirebaseId(decodedToken.user_id).then((user) => {
-        resp.json(user);
+        if (User) {
+          const token = jwt.sign(
+            { sub: user.email, iss: "raidscascavel-api" },
+            environment.security.apiSecret
+          );
+          resp.json({ name: user.name, email: user.email, accessToken: token });
+          return next(false);
+        } else {
+          next(new NotAuthorizedError("Invalid credentials"));
+        }
       });
       // ...
     })
