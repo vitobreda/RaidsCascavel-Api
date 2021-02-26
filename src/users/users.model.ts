@@ -7,8 +7,10 @@ export interface User extends mongoose.Document {
   name: string;
   email: string;
   password: string;
-  cpf: string;
-  gender: string;
+  firebaseId: String;
+  level: Number;
+  team: String;
+  friendCode: String;
   profiles: string[];
   matches(password: string): boolean;
   hasAny(...profiles: string[]): boolean;
@@ -16,6 +18,7 @@ export interface User extends mongoose.Document {
 
 export interface UserModel extends mongoose.Model<User> {
   findByEmail(email: string, projection?: string): Promise<User>;
+  findByFirebaseId(firebaseId: string, projection?: string): Promise<User>;
 }
 
 const userSchema = new mongoose.Schema({
@@ -34,20 +37,26 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     select: false,
-    required: true,
+    required: false,
   },
-  gender: {
+  firebaseId: {
     type: String,
     required: false,
-    enum: ["Male", "Female"],
   },
-  cpf: {
+  level: {
+    type: Number,
+    min: 1,
+    max: 50,
+    required: false,
+  },
+  team: {
+    type: String,
+    enum: ["Valor", "Mystic", "Instinct"],
+    required: false,
+  },
+  friendCode: {
     type: String,
     required: false,
-    validate: {
-      validator: validateCPF,
-      message: "{PATH}: Invalid CPF ({VALUE})",
-    },
   },
   profiles: {
     type: [String],
@@ -57,6 +66,13 @@ const userSchema = new mongoose.Schema({
 
 userSchema.statics.findByEmail = function (email: string, projection: string) {
   return this.findOne({ email }, projection); //{email: email}
+};
+
+userSchema.statics.findByFirebaseId = function (
+  firebaseId: string,
+  projection: string
+) {
+  return this.findOne({ firebaseId }, projection); //{firebaseId: firebaseId}
 };
 
 userSchema.methods.matches = function (password: string): boolean {

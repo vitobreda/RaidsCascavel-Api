@@ -3,6 +3,10 @@ import { User } from "./users.model";
 import { ModelRouter } from "../common/model-router";
 import { authenticate } from "../security/auth.handler";
 import { authorize } from "../security/authz.handler";
+import {
+  firebaseAuthenticate,
+  firebaseCreateUser,
+} from "../security/firebase.auth.handler";
 
 class UsersRouter extends ModelRouter<User> {
   constructor() {
@@ -14,7 +18,7 @@ class UsersRouter extends ModelRouter<User> {
 
   applyRoutes(application: restify.Server) {
     application.get({ path: `${this.basePath}` }, [
-      authorize("admin"),
+      //authorize("admin"),
       this.findAll,
     ]);
 
@@ -39,7 +43,18 @@ class UsersRouter extends ModelRouter<User> {
       this.validateId,
       this.delete,
     ]);
+
     application.post({ path: `${this.basePath}/authenticate` }, authenticate);
+
+    application.post(
+      { path: `${this.basePath}/firebaseAuthenticate` },
+      firebaseAuthenticate
+    );
+
+    application.post(
+      { path: `${this.basePath}/firebaseCreateUser` },
+      firebaseCreateUser
+    );
   }
 }
 
