@@ -22,7 +22,7 @@ export interface UserModel extends mongoose.Model<User> {
 }
 
 const userSchema = new mongoose.Schema({
-  name: {
+  userName: {
     type: String,
     required: true,
     maxlength: 80,

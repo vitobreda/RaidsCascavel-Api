@@ -6,7 +6,16 @@ export const handleError = (
   err: any,
   callback: any
 ) => {
-  //here where i can handle errors
+  switch (err.name) {
+    case "MongoError":
+      if (err.code === 11000) {
+        err.statusCode = 400;
+      }
+      break;
+    case "ValidationError":
+      err.statusCode = 400;
+      break;
+  }
 
   return callback();
 };

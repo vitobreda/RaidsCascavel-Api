@@ -1,6 +1,6 @@
 import * as restify from "restify";
 import * as jwt from "jsonwebtoken";
-import { NotAuthorizedError } from "restify-errors";
+import { NotAuthorizedError, NotFoundError } from "restify-errors";
 import { User } from "../users/users.model";
 import { environment } from "../common/environment";
 import * as admin from "firebase-admin";
@@ -17,41 +17,33 @@ export const firebaseAuthenticate: restify.RequestHandler = (
     .verifyIdToken(firebaseToken)
     .then((decodedToken) => {
       User.findByFirebaseId(decodedToken.user_id).then((user) => {
-        if (User) {
+        if (user) {
           const token = jwt.sign(
             { sub: user.email, iss: "raidscascavel-api" },
             environment.security.apiSecret
           );
+
           resp.json({ name: user.name, email: user.email, accessToken: token });
           return next(false);
         } else {
           next(new NotAuthorizedError("Invalid credentials"));
         }
       });
-      // ...
     })
     .catch(next);
 };
 
-export const firebaseCreateUser: restify.RequestHandler = (req, resp, next) => {
+export const firebaseCreateUser: restify.RequestHandler = (
+  req: restify.Request,
+  resp: restify.Response,
+  next: restify.Next
+) => {
   let user = req.body;
 
-  console.log("print User: ", User);
+  user = new User(user);
 
-  admin
-    .auth()
-    .verifyIdToken(user.firebaseToken)
-    .then((decodedToken) => {
-      user.name = decodedToken.name;
-      user.email = decodedToken.email;
-      user.firebaseId = decodedToken.user_id;
-      delete user.firebaseToken;
-
-      user = new User(user);
-
-      user.save().then((value) => resp.json(value));
-      //resp.json(decodedToken);
-      // ...
-    })
+  user
+    .save()
+    .then((value) => resp.json(value))
     .catch(next);
 };
