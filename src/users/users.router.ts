@@ -4,9 +4,7 @@ import { ModelRouter } from "../common/model-router";
 import { authenticate } from "../security/auth.handler";
 import { authorize } from "../security/authz.handler";
 import {
-  firebaseAuthenticate,
-  firebaseCreateUser,
-} from "../security/firebase.auth.handler";
+  firebaseAuthenticate} from "../security/firebase.auth.handler";
 
 class UsersRouter extends ModelRouter<User> {
   constructor() {
@@ -49,11 +47,6 @@ class UsersRouter extends ModelRouter<User> {
     application.post(
       { path: `${this.basePath}/firebaseAuthenticate` },
       firebaseAuthenticate
-    );
-
-    application.post(
-      { path: `${this.basePath}/firebaseCreateUser` },
-      firebaseCreateUser
     );
   }
 }

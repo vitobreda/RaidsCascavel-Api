@@ -32,18 +32,3 @@ export const firebaseAuthenticate: restify.RequestHandler = (
     })
     .catch(next);
 };
-
-export const firebaseCreateUser: restify.RequestHandler = (
-  req: restify.Request,
-  resp: restify.Response,
-  next: restify.Next
-) => {
-  let user = req.body;
-
-  user = new User(user);
-
-  user
-    .save()
-    .then((value) => resp.json(value))
-    .catch(next);
-};

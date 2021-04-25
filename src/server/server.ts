@@ -8,7 +8,7 @@ import { handleError } from "./error.handler";
 import { tokenParser } from "../security/token.parser";
 import { resolve } from "path";
 import { rejects } from "assert";
-var serviceAccount = require("C:/Projetos/RaidsCascavel-Api/src/google.services/raidscascavel-firebase-adminsdk-sne2u-15731f0629.json");
+import {serviceAccount} from "../google.services/raidscascavel-firebase-adminsdk-sne2u-86bc8411e6"
 
 export class Server {
   application: restify.Server;
@@ -26,7 +26,7 @@ export class Server {
     return new Promise((resolve, reject) => {
       try {
         admin.initializeApp({
-          credential: admin.credential.cert(serviceAccount),
+          credential: admin.credential.cert(<any>serviceAccount),
           databaseURL: "https://raidscascavel-default-rtdb.firebaseio.com",
         });
 
